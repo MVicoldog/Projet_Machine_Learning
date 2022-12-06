@@ -2,8 +2,8 @@ from sklearn.linear_model import LogisticRegression
 
 class LogReg_Classifier:
 
-    def __init__(self, C, tol):
-        self.model = LogisticRegression(C= C, tol= tol)
+    def __init__(self, C):
+        self.model = LogisticRegression(C= C)
 
     def train(self, x_train, y_train):
         self.model.fit(x_train, y_train)

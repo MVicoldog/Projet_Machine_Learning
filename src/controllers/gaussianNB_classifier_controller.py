@@ -10,6 +10,7 @@ import numpy as np
 sys.path.append('../')
 
 import methods.gaussianNB_classifier as gNBc
+import visualizers.gaussianNB_visualizer as gNBv
 
 class gaussianNB_Classifier_Controller:
 
@@ -23,19 +24,22 @@ class gaussianNB_Classifier_Controller:
         """
         When searching the best hyperparameters
         """
-        params = {'var_smoothing': np.logspace(0,-9, num=100)}
+        intervale = np.logspace(0,-9, num=100)
+        params = {'var_smoothing': intervale}
         print("Start : Gaussian NB tuning - research of hyperparameters")
         if bCv:
             gd = GridSearchCV(estimator=GaussianNB(), 
                     param_grid=params, 
                     cv = 5, #Stratified k-fold
                     verbose=1, 
-                    scoring='accuracy') 
+                    scoring='accuracy')
+        
         else:
             gd = GridSearchCV(estimator=GaussianNB(), 
                     param_grid=params, 
                     verbose=1, 
                     scoring='accuracy')  
+            
         gd.fit(x_train, y_train)
         print("End : Gaussian NB classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
@@ -44,6 +48,8 @@ class gaussianNB_Classifier_Controller:
         print(gd.best_score_)
 
         self.classifier = gNBc.gaussianNB_Classifier(var_smoothing=gd.best_params_["var_smoothing"])
+
+        self.visualizer = gNBv.gaussianNB_visualizer(gd, intervale)
 
     def nbDefault(self):
         """
@@ -55,6 +61,8 @@ class gaussianNB_Classifier_Controller:
     def getClassifier(self):
         return self.classifier
 
+    def getVisualizer(self):
+        return self.visualizer
 
 
 

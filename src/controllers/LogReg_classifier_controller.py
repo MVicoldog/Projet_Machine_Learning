@@ -10,6 +10,7 @@ import numpy as np
 sys.path.append('../')
 
 import methods.LogReg_classifier as lrc
+import visualizers.logreg_visualizer as lrv
 
 class LogReg_Classifier_Controller:
 
@@ -23,7 +24,8 @@ class LogReg_Classifier_Controller:
         """
         When searching the best hyperparameters
         """
-        params = {'C':[1, 10, 50, 100, 500, 1000, 2000],  'tol': [0.001,0.005, 0.0001]}
+        intervale = [0.001,0.01,0.05,1,10,50,100]
+        params = {'C': intervale}
         print("Start : Logistic Regression tuning - research of hyperparameters")
         if bCv:
             gd = GridSearchCV(estimator=LogisticRegression(), 
@@ -36,6 +38,7 @@ class LogReg_Classifier_Controller:
                     param_grid=params, 
                     verbose=1, 
                     scoring='accuracy')  
+
         gd.fit(x_train, y_train)
         print("End : Logistic Regression classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
@@ -43,18 +46,22 @@ class LogReg_Classifier_Controller:
         print(gd.best_params_)
         print(gd.best_score_)
 
-        self.classifier = lrc.LogReg_Classifier(C=gd.best_params_["C"], tol=gd.best_params_["tol"])
+        self.classifier = lrc.LogReg_Classifier(gd.best_params_['C'])
+
+        self.visualizer = lrv.logreg_visualizer(gd, intervale)
 
     def lgDefault(self):
         """
         When taking default hyperparameters
         """
-        self.classifier = LogisticRegression(C=1, tol=1e-4) #Default Param
+        self.classifier = LogisticRegression(C=1) #Default Param
 
 
     def getClassifier(self):
         return self.classifier
 
+    def getVisualizer(self):
+        return self.visualizer
 
 
 

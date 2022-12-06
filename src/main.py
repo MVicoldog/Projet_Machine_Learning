@@ -73,7 +73,11 @@ def main():
         return
     else :
         classifier = controller.getClassifier()
-
+        visualizer = controller.getVisualizer()
+    
+    print("Start : Visualisation du score en fonction des paramètres")
+    visualizer.Visualise()
+    print("End : Entrainement du modèle sur les paramètres donnés")
 
     print("Start : Entrainement du modèle sur les paramètres donnés")
     classifier.train(x_train,y_train)
