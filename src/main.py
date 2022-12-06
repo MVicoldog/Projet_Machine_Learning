@@ -15,6 +15,7 @@ import controllers.ridge_classifier_controller as rcc
 import controllers.svm_classifier_controller as svmc
 import controllers.LogReg_classifier_controller as lrcc
 import controllers.gaussianNB_classifier_controller as gNBcc
+import controllers.random_forests_classifier_controller as rfcc
 
 def main():
 
@@ -23,6 +24,7 @@ def main():
     \n\t method : 2 => Support Vector Classification\
     \n\t method : 3 => GaussianNB Classification\
     \n\t method : 4 => Logistic Regression Classification\
+    \n\t method : 5 => Random Forests Classification\
     \n\n\t search_HyperParameters : 0 => Default HyperParameters\
     \n\t search_HyperParameters : 1 => Search HyperParameters "
 
@@ -59,6 +61,9 @@ def main():
     elif method == "4":
         print("\t- Logistic Regression Classifier")
         controller = lrcc.LogReg_Classifier_Controller(search_HP,x_train,y_train)
+    elif method == "5":
+        print("\t- Random Forests Classifier")
+        controller = rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train)
     else:
         print(usage)
         return
