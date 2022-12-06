@@ -13,12 +13,16 @@ import gestion_donnees as gd
 # - Controllers -
 import controllers.ridge_classifier_controller as rcc
 import controllers.svm_classifier_controller as svmc
+import controllers.LogReg_classifier_controller as lrcc
+import controllers.gaussianNB_classifier_controller as gNBcc
 
 def main():
 
     usage= " \n Usage : python .\src\main.py method search_HyperParameters\
     \n\n\t method : 1 => Ridge Classifier\
     \n\t method : 2 => Support Vector Classification\
+    \n\t method : 3 => GaussianNB Classification\
+    \n\t method : 4 => Logistic Regression Classification\
     \n\n\t search_HyperParameters : 0 => Default HyperParameters\
     \n\t search_HyperParameters : 1 => Search HyperParameters "
 
@@ -49,6 +53,12 @@ def main():
     elif method == "2":
         print("\t- Support Vector Classifier")
         controller = svmc.Svm_Classifier_Controller(search_HP,x_train,y_train)
+    elif method == "3":
+        print("\t- GaussianNB Classifier")
+        controller = gNBcc.gaussianNB_Classifier_Controller(search_HP,x_train,y_train)
+    elif method == "4":
+        print("\t- Logistic Regression Classifier")
+        controller = lrcc.LogReg_Classifier_Controller(search_HP,x_train,y_train)
     else:
         print(usage)
         return
