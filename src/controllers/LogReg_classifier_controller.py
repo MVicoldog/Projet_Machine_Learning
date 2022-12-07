@@ -46,7 +46,7 @@ class LogReg_Classifier_Controller:
         print(gd.best_params_)
         print(gd.best_score_)
 
-        self.classifier = lrc.LogReg_Classifier(gd.best_params_['C'])
+        self.classifier = lrc.LogReg_Classifier(C=gd.best_params_['C'])
 
         self.visualizer = lrv.logreg_visualizer(gd, intervale)
 
@@ -54,7 +54,7 @@ class LogReg_Classifier_Controller:
         """
         When taking default hyperparameters
         """
-        self.classifier = LogisticRegression(C=1) #Default Param
+        self.classifier = lrc.LogReg_Classifier(C=1) #Default Param
 
 
     def getClassifier(self):

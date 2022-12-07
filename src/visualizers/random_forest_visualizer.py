@@ -3,12 +3,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 #import plotly.express as px
 
+import methods.random_forests_classifier as rfc
+
 class random_forest_visualizer:
 
     def __init__(self, grid, intervale_n, intervale_max_d):
         self.grid = grid
         self.intervale_n = intervale_n
         self.intervale_max_d = intervale_max_d
+
 
     # def Visualise(self):
     #     CVresults = self.grid.cv_results_

@@ -16,6 +16,17 @@ def normalize(x_train,x_test):
     x_test_ = scaler.fit_transform(x_test)
     return x_train_,x_test_
 
+def showdown_df():
+    # Logging for Visual Comparison
+    log_cols=["Classifier", "Accuracy", "Log Loss"]
+    log = pd.DataFrame(columns=log_cols)
+    return log
+
+def showdownPutter(name,acc,ll):
+    log_cols=["Classifier", "Accuracy", "Log Loss"]
+    log_entry = pd.DataFrame([[name, acc*100, ll]], columns=log_cols)
+    return log_entry
+
 class GestionDonnees:
 
     def __init__(self, x_train=None, y_train=None, x_test=None,y_test=None,labels=None,classes=None,train_df=None,test_df=None):
@@ -44,6 +55,7 @@ class GestionDonnees:
             self.y_train, self.y_test = self.labels[train_index], self.labels[test_index]
 
         self.x_train,self.x_test = normalize(self.x_train,self.x_test)
+
 
 
 

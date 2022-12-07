@@ -13,11 +13,17 @@ import visualizers.random_forest_visualizer as rfv
 
 class Random_Forests_Classifier_Controller:
 
+    
+
     def __init__(self, search_HP, x_test, y_train):
+
+       
+
         if (search_HP):
             self.rfTuning(x_test, y_train)
-        else:
+        else: 
             self.rfDefault()
+
 
     def rfTuning(self, x_test, y_train, bCv=True):
         """
@@ -53,7 +59,7 @@ class Random_Forests_Classifier_Controller:
         """
         When taking default hyperparameters
         """
-        self.classifier = rf.RandomForestClassifier(n_estimators = 40, max_depth=15) #Best Param in fact
+        self.classifier = rf.Random_forests_Classifier(n_estimators = 100, max_depth=None)
 
 
     def getClassifier(self):

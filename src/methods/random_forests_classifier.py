@@ -16,3 +16,4 @@ class Random_forests_Classifier:
         predicted = self.predict(x_valid)
         accuracy = (predicted == y_test).mean()
         return accuracy
+         

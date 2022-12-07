@@ -3,7 +3,7 @@
 
 
 # - Library -
-
+import pandas as pd
 
 # - DataBase Controller -
 import sys
@@ -18,9 +18,14 @@ import controllers.gaussianNB_classifier_controller as gNBcc
 import controllers.random_forests_classifier_controller as rfcc
 import controllers.neural_network_classifier_controller as nncc
 
+# - Visualizers -
+import visualizers.classifierShowdown_Visualizer as cSV
+
+from sklearn.metrics import log_loss # PENSER A IMPLEMENTER LOGLOSS DANS LES METHODS !!!
+
 def main():
 
-    usage= " \n Usage : python .\src\main.py method search_HyperParameters\
+    usage= " \n Usage : python .\src\main.py method search_HyperParameters (Classifiers Showdown)\
     \n\n\t method : 1 => Ridge Classifier\
     \n\t method : 2 => Support Vector Classification\
     \n\t method : 3 => GaussianNB Classification\
@@ -28,14 +33,19 @@ def main():
     \n\t method : 5 => Random Forests Classification\
     \n\t method : 6 => Neural Network Classification\
     \n\n\t search_HyperParameters : 0 => Default HyperParameters\
-    \n\t search_HyperParameters : 1 => Search HyperParameters "
-
+    \n\t search_HyperParameters : 1 => Search HyperParameters\
+    \n\n\t Classifiers Showdown : 1 => Make the comparaison between all the model tuned without their hyperparameters\
+    \n\t Classifiers Showdown : 2 => Make the comparaison between all the model tuned WITH their hyperparameters"
+    
     if len(sys.argv) <= 2:
         print(usage)
         return
 
     method = sys.argv[1]
     search_HP = sys.argv[2]
+
+    if len(sys.argv) == 4:
+        showdown = sys.argv[3]
 
     if search_HP == "0": search_HP = False
     elif search_HP == "1": search_HP = True
@@ -78,11 +88,13 @@ def main():
         return
     else :
         classifier = controller.getClassifier()
-        visualizer = controller.getVisualizer()
+        print('classifier : ',classifier)
+        if search_HP:
+            visualizer = controller.getVisualizer() 
     
-    print("Start : Visualisation du score en fonction des paramètres")
-    visualizer.Visualise()
-    print("End : Entrainement du modèle sur les paramètres donnés")
+            print("Start : Visualisation du score en fonction des paramètres")
+            visualizer.Visualise()
+            print("End : Entrainement du modèle sur les paramètres donnés")
 
     print("Start : Entrainement du modèle sur les paramètres donnés")
     classifier.train(x_train,y_train)
@@ -91,6 +103,50 @@ def main():
 
     accuracy = classifier.global_accuracy(x_test,y_test)
     print("Accuracy :", accuracy)
+
+    print('lennnnn : ', len(sys.argv))
+    print('ssshhshs : ', showdown)
+
+    if len(sys.argv) == 4:
+        if showdown == "1":
+            print('in the boucle')
+            search_HP = False
+            print("Beginning Classifiers Showdown : ")
+            results_df = gd.showdown_df()
+            classifiers = [
+                rcc.Ridge_Classifier_Controller(search_HP, x_train, y_train).getClassifier(),
+                svmc.Svm_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
+                gNBcc.gaussianNB_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
+                lrcc.LogReg_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
+                rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train).getClassifier()]
+
+            print(classifier)
+
+            for clf in classifiers:
+                clf.train(x_train, y_train)
+                name = clf.__class__.__name__
+                
+                #print("="*30)
+                #print(name)
+                
+                #print('****Results****')
+                train_predictions = clf.predict(x_test)
+                acc = clf.global_accuracy(x_test,y_test)
+                #print("Accuracy: {:.4%}".format(acc))
+                
+                # train_predictions = clf.predict_proba(x_test)
+                # ll = log_loss(y_test, train_predictions)
+                # print("Log Loss: {}".format(ll))
+
+                ll=0
+                
+                log_entry = gd.showdownPutter(name, acc, ll)
+
+                #results_df = results_df.concat(log_entry)
+                results_df = pd.concat([results_df, log_entry])
+            print(results_df)
+            #cSV.accuracyPlotter(results_df)
+            cSV.subPlotter121(results_df)
 
 
 
