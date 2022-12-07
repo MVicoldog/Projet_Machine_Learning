@@ -104,49 +104,45 @@ def main():
     accuracy = classifier.global_accuracy(x_test,y_test)
     print("Accuracy :", accuracy)
 
-    print('lennnnn : ', len(sys.argv))
-    print('ssshhshs : ', showdown)
-
     if len(sys.argv) == 4:
         if showdown == "1":
-            print('in the boucle')
             search_HP = False
-            print("Beginning Classifiers Showdown : ")
-            results_df = gd.showdown_df()
-            classifiers = [
-                rcc.Ridge_Classifier_Controller(search_HP, x_train, y_train).getClassifier(),
-                svmc.Svm_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
-                gNBcc.gaussianNB_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
-                lrcc.LogReg_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
-                rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train).getClassifier()]
+        if showdown == "2":
+            search_HP = True
+        print("Beginning Classifiers Showdown : ")
+        results_df = gd.showdown_df()
+        classifiers = [
+            rcc.Ridge_Classifier_Controller(search_HP, x_train, y_train).getClassifier(),
+            svmc.Svm_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
+            gNBcc.gaussianNB_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
+            lrcc.LogReg_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
+            rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train).getClassifier()]
 
-            print(classifier)
+        for clf in classifiers:
+            clf.train(x_train, y_train)
+            name = clf.__class__.__name__
+            
+            #print("="*30)
+            #print(name)
+            
+            #print('****Results****')
+            train_predictions = clf.predict(x_test)
+            acc = clf.global_accuracy(x_test,y_test)
+            #print("Accuracy: {:.4%}".format(acc))
+            
+            # train_predictions = clf.predict_proba(x_test)
+            # ll = log_loss(y_test, train_predictions)
+            # print("Log Loss: {}".format(ll))
 
-            for clf in classifiers:
-                clf.train(x_train, y_train)
-                name = clf.__class__.__name__
-                
-                #print("="*30)
-                #print(name)
-                
-                #print('****Results****')
-                train_predictions = clf.predict(x_test)
-                acc = clf.global_accuracy(x_test,y_test)
-                #print("Accuracy: {:.4%}".format(acc))
-                
-                # train_predictions = clf.predict_proba(x_test)
-                # ll = log_loss(y_test, train_predictions)
-                # print("Log Loss: {}".format(ll))
+            ll=0
+            
+            log_entry = gd.showdownPutter(name, acc, ll)
 
-                ll=0
-                
-                log_entry = gd.showdownPutter(name, acc, ll)
-
-                #results_df = results_df.concat(log_entry)
-                results_df = pd.concat([results_df, log_entry])
-            print(results_df)
-            #cSV.accuracyPlotter(results_df)
-            cSV.subPlotter121(results_df)
+            #results_df = results_df.concat(log_entry)
+            results_df = pd.concat([results_df, log_entry])
+        print(results_df)
+        #cSV.accuracyPlotter(results_df)
+        cSV.subPlotter121(results_df)
 
 
 
