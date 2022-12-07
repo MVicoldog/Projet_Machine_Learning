@@ -1,3 +1,4 @@
+from sklearn.model_selection import cross_val_score
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, log_loss
 
@@ -11,6 +12,10 @@ class Neural_Network_Classifier:
 
     def predict(self, x_test):
         return self.model.predict(x_test)
+
+    def scoreKfold(self, x_train, y_train):
+        scores = cross_val_score(self.model, x_train, y_train, scoring='accuracy', cv=5)
+        return scores
 
     def global_accuracy(self, x_test, y_test):
         predicted = self.predict(x_test)

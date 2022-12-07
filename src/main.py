@@ -12,6 +12,7 @@ import gestion_donnees as gd
 
 # - Controllers -
 import controllers.ridge_classifier_controller as rcc
+import controllers.adaBoost_classifier_controller as abcc
 import controllers.svm_classifier_controller as svmc
 import controllers.LogReg_classifier_controller as lrcc
 import controllers.gaussianNB_classifier_controller as gNBcc
@@ -54,16 +55,16 @@ def main():
         return
 
     # - Gestion Data -
-    train_df, test_df = gd.open_data()
-    gestion_donnees = gd.GestionDonnees(train_df=train_df, test_df=test_df)
+    gestion_donnees = gd.GestionDonnees()
     gestion_donnees.prepocess()
     gestion_donnees.stratifiedSelection()
     x_train, y_train, x_test, y_test = gestion_donnees.x_train, gestion_donnees.y_train, gestion_donnees.x_test, gestion_donnees.y_test
 
     print("Selected method : ")
     if method == "1":
-        print("\t- Ridge Classifier")
-        controller = rcc.Ridge_Classifier_Controller(search_HP, x_train, y_train)
+        print("\t- AdaBoost Classifier")
+        #controller = rcc.Ridge_Classifier_Controller(search_HP, x_train, y_train)
+        controller = abcc.adaBoost_Classifier_Controller(search_HP,x_train,y_train)
     elif method == "2":
         print("\t- Support Vector Classifier")
         controller = svmc.Svm_Classifier_Controller(search_HP,x_train,y_train)

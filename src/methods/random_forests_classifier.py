@@ -1,5 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, log_loss
+from sklearn.model_selection import cross_val_score
+
 
 class Random_forests_Classifier:
 
@@ -11,6 +13,10 @@ class Random_forests_Classifier:
 
     def predict(self, x_valid):
         return self.model.predict(x_valid)
+
+    def scoreKfold(self, x_train, y_train):
+        scores = cross_val_score(self.model, x_train, y_train, scoring='accuracy', cv=5)
+        return scores
 
     def global_accuracy(self, x_valid, y_test):
         predicted = self.predict(x_valid)

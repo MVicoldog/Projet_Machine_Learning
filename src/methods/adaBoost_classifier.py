@@ -1,11 +1,12 @@
-from sklearn.model_selection import cross_val_score
-from sklearn.svm import SVC
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.metrics import accuracy_score, log_loss
+from sklearn.model_selection import cross_val_score
 
-class Svm_Classifier:
 
-    def __init__(self, C):
-        self.model = SVC(C=C, probability=True)
+class adaBoost_Classifier:
+
+    def __init__(self, base_estimator, n_estimators, learning_rate):
+        self.model = AdaBoostClassifier(base_estimator=base_estimator, n_estimators=n_estimators, learning_rate=learning_rate)
 
     def train(self, x_train, y_train):
         self.model.fit(x_train, y_train)
