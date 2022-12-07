@@ -1,4 +1,5 @@
 from sklearn.linear_model import RidgeClassifier
+from sklearn.metrics import accuracy_score, log_loss
 
 class Ridge_Classifier:
 
@@ -15,3 +16,6 @@ class Ridge_Classifier:
         predicted = self.predict(x_test)
         accuracy = (predicted == y_test).mean()
         return accuracy
+
+    def logloss(self, x_test, y_test):
+        return 0

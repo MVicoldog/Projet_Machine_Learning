@@ -88,7 +88,6 @@ def main():
         return
     else :
         classifier = controller.getClassifier()
-        print('classifier : ',classifier)
         if search_HP:
             visualizer = controller.getVisualizer() 
     
@@ -104,11 +103,14 @@ def main():
     accuracy = classifier.global_accuracy(x_test,y_test)
     print("Accuracy :", accuracy)
 
+    score = classifier.scoreKfold(x_train, y_train)
+    print('kfold score :')
+    gd.display_scores(score)
+
     if len(sys.argv) == 4:
-        if showdown == "1":
-            search_HP = False
-        if showdown == "2":
-            search_HP = True
+        if showdown == "1":search_HP = False   
+        if showdown == "2":search_HP = True
+            
         print("Beginning Classifiers Showdown : ")
         results_df = gd.showdown_df()
         classifiers = [
@@ -126,15 +128,13 @@ def main():
             #print(name)
             
             #print('****Results****')
-            train_predictions = clf.predict(x_test)
+            
             acc = clf.global_accuracy(x_test,y_test)
             #print("Accuracy: {:.4%}".format(acc))
             
             # train_predictions = clf.predict_proba(x_test)
-            # ll = log_loss(y_test, train_predictions)
+            ll = clf.logloss(x_test,y_test)
             # print("Log Loss: {}".format(ll))
-
-            ll=0
             
             log_entry = gd.showdownPutter(name, acc, ll)
 

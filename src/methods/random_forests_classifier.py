@@ -1,5 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
-
+from sklearn.metrics import accuracy_score, log_loss
 
 class Random_forests_Classifier:
 
@@ -17,3 +17,6 @@ class Random_forests_Classifier:
         accuracy = (predicted == y_test).mean()
         return accuracy
          
+    def logloss(self, x_test, y_test):
+        prediction = self.model.predict_proba(x_test)
+        return log_loss(y_test, prediction)

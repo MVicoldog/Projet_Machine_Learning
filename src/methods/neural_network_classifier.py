@@ -1,4 +1,5 @@
 from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score, log_loss
 
 class Neural_Network_Classifier:
 
@@ -15,3 +16,7 @@ class Neural_Network_Classifier:
         predicted = self.predict(x_test)
         accuracy = (predicted == y_test).mean()
         return accuracy
+
+    def logloss(self, x_test, y_test):
+        prediction = self.model.predict_proba(x_test)
+        return log_loss(y_test, prediction)
