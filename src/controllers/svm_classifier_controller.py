@@ -5,6 +5,7 @@ import numpy as np
 import sys
 sys.path.append('../')
 import methods.svm_classifier as svmc
+import visualizers.svm_visualizer as svmv
 
 
 class Svm_Classifier_Controller:
@@ -15,13 +16,25 @@ class Svm_Classifier_Controller:
         else:
             self.svmcDefault()
 
-    def svmcTuning(self, x_train, y_train):
+    def svmcTuning(self, x_train, y_train, bCv=True):
         """
         When searching the best hyperparameters
         """
-        params = {'C': np.logspace(-6, 6, 13)}
+        intervale = np.logspace(-6, 6, 13)
+        params = {'C': intervale}
         print("Start : SVM classifier tuning - research of hyperparameters")
         gd = GridSearchCV(SVC(), params, verbose=3)
+        if bCv:
+            gd = GridSearchCV(estimator=SVC(), 
+                    param_grid=params, 
+                    cv = 5, #Stratified k-fold
+                    verbose=2, 
+                    scoring='accuracy') 
+        else:
+            gd = GridSearchCV(estimator=SVC(), 
+                    param_grid=params, 
+                    verbose=2, 
+                    scoring='accuracy')  
         gd.fit(x_train, y_train)
         print("End : SVM classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
@@ -29,6 +42,8 @@ class Svm_Classifier_Controller:
         print(gd.best_score_)
 
         self.classifier = svmc.Svm_Classifier(C=gd.best_params_["C"])
+        self.visualizer = svmv.svm_visualizer(gd, intervale)
+
     def svmcDefault(self):
         """
         When taking default hyperparameters
@@ -39,6 +54,8 @@ class Svm_Classifier_Controller:
     def getClassifier(self):
         return self.classifier
 
+    def getVisualizer(self):
+        return self.visualizer
 
 
 

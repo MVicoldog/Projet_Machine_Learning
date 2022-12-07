@@ -8,6 +8,7 @@ import numpy as np
 
 sys.path.append('../')
 import methods.ridge_classifier as rc
+import visualizers.ridge_visualizer as rv
 
 
 class Ridge_Classifier_Controller:
@@ -18,13 +19,24 @@ class Ridge_Classifier_Controller:
         else:
             self.rcDefault()
 
-    def rcTuning(self, x_train, y_train):
+    def rcTuning(self, x_train, y_train, bCv = True):
         """
         When searching the best hyperparameters
         """
-        params = {'alpha': np.logspace(-6, 6, 13)}
+        intervale = np.logspace(-6, 6, 13)
+        params = {'alpha': intervale}
         print("Start : ridge classifier tuning - research of hyperparameters")
-        gd = GridSearchCV(RidgeClassifier(), params, verbose=3)
+        if bCv:
+            gd = GridSearchCV(estimator=RidgeClassifier(), 
+                    param_grid=params, 
+                    cv = 5, #Stratified k-fold
+                    verbose=2, 
+                    scoring='accuracy') 
+        else:
+            gd = GridSearchCV(estimator=RidgeClassifier(), 
+                    param_grid=params, 
+                    verbose=2, 
+                    scoring='accuracy')  
         gd.fit(x_train, y_train)
         print("End : ridge classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
@@ -33,6 +45,7 @@ class Ridge_Classifier_Controller:
         print(gd.best_score_)
 
         self.classifier = rc.Ridge_Classifier(alpha=gd.best_params_["alpha"])
+        self.visualizer = rv.ridge_visualizer(gd, intervale)
 
     def rcDefault(self):
         """
@@ -44,6 +57,7 @@ class Ridge_Classifier_Controller:
     def getClassifier(self):
         return self.classifier
 
-
+    def getVisualizer(self):
+        return self.visualizer
 
 
