@@ -16,6 +16,7 @@ import controllers.svm_classifier_controller as svmc
 import controllers.LogReg_classifier_controller as lrcc
 import controllers.gaussianNB_classifier_controller as gNBcc
 import controllers.random_forests_classifier_controller as rfcc
+import controllers.neural_network_classifier_controller as nncc
 
 def main():
 
@@ -25,6 +26,7 @@ def main():
     \n\t method : 3 => GaussianNB Classification\
     \n\t method : 4 => Logistic Regression Classification\
     \n\t method : 5 => Random Forests Classification\
+    \n\t method : 6 => Neural Network Classification\
     \n\n\t search_HyperParameters : 0 => Default HyperParameters\
     \n\t search_HyperParameters : 1 => Search HyperParameters "
 
@@ -64,6 +66,9 @@ def main():
     elif method == "5":
         print("\t- Random Forests Classifier")
         controller = rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train)
+    elif method == "6":
+        print("\t- Neural Network Classifier")
+        controller = nncc.Neural_Network_Classifier_Controller(search_HP,x_train,y_train)
     else:
         print(usage)
         return
