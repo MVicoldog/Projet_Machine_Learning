@@ -4,9 +4,6 @@ from sklearn.ensemble import AdaBoostClassifier
 import numpy as np
 import sys
 
-from sklearn.svm import SVC
-from sklearn.tree import DecisionTreeClassifier
-
 sys.path.append('../')
 import methods.adaBoost_classifier as abc
 import visualizers.adaBoost_visualizer as abv
@@ -14,18 +11,20 @@ import visualizers.adaBoost_visualizer as abv
 
 class adaBoost_Classifier_Controller:
 
-    def __init__(self, search_HP, x_train, y_train):
+    def __init__(self, search_HP, x_train, y_train, x_test, y_test):
         if (search_HP):
-            self.abcTuning(x_train, y_train)
+            self.abcTuning(x_train, y_train, x_test, y_test)
         else:
             self.abcDefault()
 
-    def abcTuning(self, x_train, y_train, bCv=True):
+    def abcTuning(self, x_train, y_train, x_test, y_test, bCv=True):
         """
         When searching the best hyperparameters
         """
         #base_estimator_list =[None, SVC()]
-        n_estimators_list = [20,30,40,50,60,70,80]
+        #n_estimators_list = [20,30,40,50,60,70,80]
+        n_estimators_list = [20,50,80]
+
         learning_rate_list = np.logspace(-3, 1, 5)
         params = {'n_estimators' : n_estimators_list,'learning_rate' : learning_rate_list} #'base_estimator': base_estimator_list,
         print("Start : adaBoost classifier tuning - research of hyperparameters")
@@ -48,7 +47,8 @@ class adaBoost_Classifier_Controller:
         print(gd.best_score_)
 
         self.classifier = abc.adaBoost_Classifier(base_estimator=None, n_estimators=gd.best_params_["n_estimators"], learning_rate=gd.best_params_["learning_rate"])#base_estimator=gd.best_params_["base_estimator"],
-        self.visualizer = abv.adaBoost_visualizer(gd, n_estimators_list)
+        self.visualizer = abv.adaBoost_visualizer(AdaBoostClassifier, learning_rate_list, n_estimators_list,
+                                                        x_train, y_train, x_test, y_test, gd)
 
     def abcDefault(self):
         """

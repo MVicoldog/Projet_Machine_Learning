@@ -8,7 +8,7 @@ class neural_network_visualizer:
         self.grid = grid
         self.intervale = intervale
     
-    def Visualise(self):
+    def Visualise_tuning(self):
         CVresults = self.grid.cv_results_
         
         ymax = np.ones(len(CVresults["mean_test_score"]))*max(CVresults["mean_test_score"])

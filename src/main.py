@@ -21,6 +21,7 @@ import controllers.neural_network_classifier_controller as nncc
 
 # - Visualizers -
 import visualizers.classifierShowdown_Visualizer as cSV
+import visualizers.learning_curve as lcV
 
 from sklearn.metrics import log_loss # PENSER A IMPLEMENTER LOGLOSS DANS LES METHODS !!!
 
@@ -64,7 +65,7 @@ def main():
     if method == "1":
         print("\t- AdaBoost Classifier")
         #controller = rcc.Ridge_Classifier_Controller(search_HP, x_train, y_train)
-        controller = abcc.adaBoost_Classifier_Controller(search_HP,x_train,y_train)
+        controller = abcc.adaBoost_Classifier_Controller(search_HP,x_train,y_train, x_test, y_test)
     elif method == "2":
         print("\t- Support Vector Classifier")
         controller = svmc.Svm_Classifier_Controller(search_HP,x_train,y_train)
@@ -76,7 +77,7 @@ def main():
         controller = lrcc.LogReg_Classifier_Controller(search_HP,x_train,y_train)
     elif method == "5":
         print("\t- Random Forests Classifier")
-        controller = rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train)
+        controller = rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train,x_test, y_test)
     elif method == "6":
         print("\t- Neural Network Classifier")
         controller = nncc.Neural_Network_Classifier_Controller(search_HP,x_train,y_train)
@@ -93,20 +94,26 @@ def main():
             visualizer = controller.getVisualizer() 
     
             print("Start : Visualisation du score en fonction des paramètres")
-            visualizer.Visualise()
-            print("End : Entrainement du modèle sur les paramètres donnés")
+            visualizer.Visualise_tuning()
+            print("End : Visualisation du score en fonction des paramètre")
 
     print("Start : Entrainement du modèle sur les paramètres donnés")
     classifier.train(x_train,y_train)
     print("End : Entrainement du modèle sur les paramètres donnés")
 
-
-    accuracy = classifier.global_accuracy(x_test,y_test)
-    print("Accuracy :", accuracy)
-
     score = classifier.scoreKfold(x_train, y_train)
     print('kfold score :')
     gd.display_scores(score)
+
+    print("Start : Visualisation de l'apprentissage du modèle")
+    title = classifier.__class__.__name__
+    lcV.learn_curve.plot_learning_curve(classifier.model, title, x_test, y_test, cv = 2, scoring="accuracy").show()
+    print("End : Visualisation de l'apprentissage du modèle")
+
+
+    accuracy = classifier.global_accuracy(x_test,y_test)
+    print("Accuracy :", accuracy)
+    
 
     if len(sys.argv) == 4:
         if showdown == "1":search_HP = False   
@@ -115,11 +122,12 @@ def main():
         print("Beginning Classifiers Showdown : ")
         results_df = gd.showdown_df()
         classifiers = [
-            rcc.Ridge_Classifier_Controller(search_HP, x_train, y_train).getClassifier(),
+            abcc.adaBoost_Classifier_Controller(search_HP,x_train,y_train, x_test, y_test),
             svmc.Svm_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
             gNBcc.gaussianNB_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
             lrcc.LogReg_Classifier_Controller(search_HP,x_train,y_train).getClassifier(),
-            rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train).getClassifier()]
+            rfcc.Random_Forests_Classifier_Controller(search_HP,x_train,y_train,x_test, y_test).getClassifier(),
+            nncc.Neural_Network_Classifier_Controller(search_HP,x_train,y_train)]
 
         for clf in classifiers:
             clf.train(x_train, y_train)

@@ -25,4 +25,4 @@ class Random_forests_Classifier:
          
     def logloss(self, x_test, y_test):
         prediction = self.model.predict_proba(x_test)
-        return log_loss(y_test, prediction)
+        return log_loss(y_test, prediction) 

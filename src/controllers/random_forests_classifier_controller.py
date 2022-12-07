@@ -15,17 +15,15 @@ class Random_Forests_Classifier_Controller:
 
     
 
-    def __init__(self, search_HP, x_test, y_train):
-
-       
+    def __init__(self, search_HP, x_train, y_train, x_test, y_test):
 
         if (search_HP):
-            self.rfTuning(x_test, y_train)
+            self.rfTuning(x_train, y_train, x_test, y_test)
         else: 
             self.rfDefault()
 
 
-    def rfTuning(self, x_test, y_train, bCv=True):
+    def rfTuning(self, x_train, y_train, x_test, y_test, bCv=True):
         """
         When searching the best hyperparameters
         """
@@ -45,7 +43,7 @@ class Random_Forests_Classifier_Controller:
                     param_grid=params, 
                     verbose=2, 
                     scoring='accuracy')  
-        gd.fit(x_test, y_train)
+        gd.fit(x_train, y_train)
         print("End : random forests - research of hyperparameters")
         model = gd.best_estimator_
         print(model)
@@ -53,7 +51,8 @@ class Random_Forests_Classifier_Controller:
         print(gd.best_score_)
 
         self.classifier = rf.Random_forests_Classifier(n_estimators=gd.best_params_["n_estimators"], max_depth=gd.best_params_["max_depth"])
-        self.visualizer = rfv.random_forest_visualizer(gd, interval_max_depth, interval_n_estimators)
+        self.visualizer = rfv.random_forest_visualizer(RandomForestClassifier, interval_max_depth, interval_n_estimators,
+                                                        x_train, y_train, x_test, y_test, gd)
 
     def rfDefault(self):
         """
@@ -66,7 +65,7 @@ class Random_Forests_Classifier_Controller:
         return self.classifier
 
     def getVisualizer(self):
-        return self.visualizer
+        return self.visualizer 
 
 
 

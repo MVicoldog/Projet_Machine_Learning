@@ -1,6 +1,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+from visualizers import learning_curve as lc
 
 class ridge_visualizer:
 
@@ -8,7 +9,7 @@ class ridge_visualizer:
         self.grid = grid
         self.intervale = intervale
     
-    def Visualise(self):
+    def Visualise_tuning(self):
         CVresults = self.grid.cv_results_
        
         ymax = np.ones(len(CVresults["mean_test_score"]))*max(CVresults["mean_test_score"])
