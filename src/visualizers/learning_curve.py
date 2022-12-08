@@ -40,7 +40,7 @@ class learn_curve:
         cv=None,
         n_jobs=None,
         scoring=None,
-        train_sizes=np.linspace(0.1, 1.0, 10),
+        train_sizes=np.linspace(0.1, 1.0, 5),
     ):
         """
         Generate 3 plots: the test and training learning curve, the training

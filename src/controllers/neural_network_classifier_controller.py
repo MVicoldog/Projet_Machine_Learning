@@ -54,8 +54,7 @@ class Neural_Network_Classifier_Controller:
         """
         When taking default hyperparameters
         """
-        self.classifier = nnc.Neural_Network_Classifier(hidden_layer_sizes=(100,)) #Default Param
-
+        self.classifier = nnc.Neural_Network_Classifier(hidden_layer_sizes=(100)) #Default Param
 
     def getClassifier(self):
         return self.classifier

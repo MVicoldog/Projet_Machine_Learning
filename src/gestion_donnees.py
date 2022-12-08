@@ -28,9 +28,10 @@ def showdownPutter(name,acc,ll):
     return log_entry
 
 def display_scores(scores):
-        print("Scores:", scores)
-        print("Mean:", scores.mean())
-        print("Standard deviation:", scores.std())
+    score_df = pd.DataFrame({'Scores': scores})
+    score_df['Mean'] = score_df['Scores'].mean()
+    score_df['Std Variation'] = score_df['Scores'].std()
+    return score_df
 
 class GestionDonnees:
 
