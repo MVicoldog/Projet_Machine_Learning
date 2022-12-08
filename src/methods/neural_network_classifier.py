@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score, log_loss
 class Neural_Network_Classifier:
 
     def __init__(self, hidden_layer_sizes):
-        self.model = MLPClassifier(hidden_layer_sizes=(hidden_layer_sizes,))
+        self.model = MLPClassifier(hidden_layer_sizes=(hidden_layer_sizes,),max_iter=500)
 
     def train(self, x_train, y_train):
         self.model.fit(x_train, y_train)

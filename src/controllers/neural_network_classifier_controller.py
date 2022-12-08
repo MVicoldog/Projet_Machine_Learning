@@ -10,6 +10,7 @@ import numpy as np
 sys.path.append('../')
 
 import methods.neural_network_classifier as nnc
+import visualizers.neural_network_visualizer as nnv
 
 class Neural_Network_Classifier_Controller:
 
@@ -23,7 +24,7 @@ class Neural_Network_Classifier_Controller:
         """
         When searching the best hyperparameters
         """
-        intervale = [i for i in range(10,30)]
+        intervale = [10,20,30,40,50,60,70,80,90,100]
         params = {'hidden_layer_sizes': intervale}
         print("Start : Neural Network tuning - research of hyperparameters")
         if bCv:
@@ -47,13 +48,13 @@ class Neural_Network_Classifier_Controller:
 
         self.classifier = nnc.Neural_Network_Classifier(gd.best_params_['hidden_layer_sizes'])
 
-        self.visualizer = nnc.Neural_Network_Classifier(gd, intervale)
+        self.visualizer = nnv.neural_network_visualizer(gd, intervale)
 
     def nnDefault(self):
         """
         When taking default hyperparameters
         """
-        self.classifier = MLPClassifier(hidden_layer_sizes=(28,)) #Default Param
+        self.classifier = nnc.Neural_Network_Classifier(hidden_layer_sizes=(100,)) #Default Param
 
 
     def getClassifier(self):
