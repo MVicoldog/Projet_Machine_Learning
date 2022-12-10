@@ -13,8 +13,9 @@ class skelet_classifier:
     def predict(self, x_test):
         return self.model.predict(x_test)
 
-    def scoreKfold(self, x_train, y_train): 
-        scores = cross_val_score(self.model, x_train, y_train, scoring='accuracy', cv=10)
+    def scoreKfold(self, x_train, y_train):
+        scores = cross_val_score(
+            self.model, x_train, y_train, scoring='accuracy', cv=10)
         return scores
 
     def global_accuracy(self, x_test, y_test):

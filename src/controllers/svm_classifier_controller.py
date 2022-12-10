@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
+import visualizers.svm_visualizer as svmv
+import methods.svm_classifier as svmc
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, StratifiedShuffleSplit
 from sklearn.svm import SVC
 import numpy as np
 import sys
 
 sys.path.append('../')
-import methods.svm_classifier as svmc
-import visualizers.svm_visualizer as svmv
 
 
 class Svm_Classifier_Controller:
@@ -26,16 +26,16 @@ class Svm_Classifier_Controller:
         print("Start : SVM classifier tuning - research of hyperparameters")
         gd = GridSearchCV(SVC(), params, verbose=3)
         if bCv:
-            gd = GridSearchCV(estimator=SVC(), 
-                    param_grid=params, 
-                    cv = 5, #Stratified k-fold
-                    verbose=2, 
-                    scoring='accuracy') 
+            gd = GridSearchCV(estimator=SVC(),
+                              param_grid=params,
+                              cv=5,  # Stratified k-fold
+                              verbose=2,
+                              scoring='accuracy')
         else:
-            gd = GridSearchCV(estimator=SVC(), 
-                    param_grid=params, 
-                    verbose=2, 
-                    scoring='accuracy')  
+            gd = GridSearchCV(estimator=SVC(),
+                              param_grid=params,
+                              verbose=2,
+                              scoring='accuracy')
         gd.fit(x_train, y_train)
         print("End : SVM classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
@@ -49,14 +49,10 @@ class Svm_Classifier_Controller:
         """
         When taking default hyperparameters
         """
-        self.classifier = svmc.Svm_Classifier(C=10) #Best Param in fact
-
+        self.classifier = svmc.Svm_Classifier(C=10)  # Best Param in fact
 
     def getClassifier(self):
         return self.classifier
 
     def getVisualizer(self):
         return self.visualizer
-
-
-

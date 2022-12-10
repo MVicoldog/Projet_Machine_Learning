@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import visualizers.logreg_visualizer as lrv
+import methods.LogReg_classifier as lrc
 import sys
 
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, StratifiedShuffleSplit
@@ -9,8 +11,6 @@ import numpy as np
 
 sys.path.append('../')
 
-import methods.LogReg_classifier as lrc
-import visualizers.logreg_visualizer as lrv
 
 class LogReg_Classifier_Controller:
 
@@ -20,24 +20,24 @@ class LogReg_Classifier_Controller:
         else:
             self.lgDefault()
 
-    def lgTuning(self, x_train, y_train, bCv = True):
+    def lgTuning(self, x_train, y_train, bCv=True):
         """
         When searching the best hyperparameters
         """
-        intervale = [0.001,0.01,0.05,1,10,50,100]
+        intervale = [0.001, 0.003, 0.005, 0.01, 0.05, 1, 10, 50]
         params = {'C': intervale}
         print("Start : Logistic Regression tuning - research of hyperparameters")
         if bCv:
-            gd = GridSearchCV(estimator=LogisticRegression(), 
-                    param_grid=params, 
-                    cv = 5, #Stratified k-fold
-                    verbose=1, 
-                    scoring='accuracy') 
+            gd = GridSearchCV(estimator=LogisticRegression(),
+                              param_grid=params,
+                              cv=5,  # Stratified k-fold
+                              verbose=1,
+                              scoring='accuracy')
         else:
-            gd = GridSearchCV(estimator=LogisticRegression(), 
-                    param_grid=params, 
-                    verbose=1, 
-                    scoring='accuracy')  
+            gd = GridSearchCV(estimator=LogisticRegression(),
+                              param_grid=params,
+                              verbose=1,
+                              scoring='accuracy')
 
         gd.fit(x_train, y_train)
         print("End : Logistic Regression classifier tuning - research of hyperparameters")
@@ -54,14 +54,10 @@ class LogReg_Classifier_Controller:
         """
         When taking default hyperparameters
         """
-        self.classifier = lrc.LogReg_Classifier(C=1) #Default Param
-
+        self.classifier = lrc.LogReg_Classifier(C=1)  # Default Param
 
     def getClassifier(self):
         return self.classifier
 
     def getVisualizer(self):
         return self.visualizer
-
-
-

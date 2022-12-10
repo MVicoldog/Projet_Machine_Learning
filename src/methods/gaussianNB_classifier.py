@@ -6,7 +6,7 @@ from sklearn.model_selection import cross_val_score
 class gaussianNB_Classifier:
 
     def __init__(self, var_smoothing):
-        self.model = GaussianNB(var_smoothing = var_smoothing)
+        self.model = GaussianNB(var_smoothing=var_smoothing)
 
     def train(self, x_train, y_train):
         self.model.fit(x_train, y_train)
@@ -14,8 +14,9 @@ class gaussianNB_Classifier:
     def predict(self, x_test):
         return self.model.predict(x_test)
 
-    def scoreKfold(self, x_train, y_train): 
-        scores = cross_val_score(self.model, x_train, y_train, scoring='accuracy', cv=5)
+    def scoreKfold(self, x_train, y_train):
+        scores = cross_val_score(
+            self.model, x_train, y_train, scoring='accuracy', cv=5)
         return scores
 
     def global_accuracy(self, x_test, y_test):

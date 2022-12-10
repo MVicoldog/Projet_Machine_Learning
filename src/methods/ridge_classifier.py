@@ -6,7 +6,7 @@ from sklearn.model_selection import cross_val_score
 class Ridge_Classifier:
 
     def __init__(self, alpha):
-        self.model = RidgeClassifier(alpha = alpha)
+        self.model = RidgeClassifier(alpha=alpha)
 
     def train(self, x_train, y_train):
         self.model.fit(x_train, y_train)
@@ -15,7 +15,8 @@ class Ridge_Classifier:
         return self.model.predict(x_test)
 
     def scoreKfold(self, x_train, y_train):
-        scores = cross_val_score(self.model, x_train, y_train, scoring='accuracy', cv=5)
+        scores = cross_val_score(
+            self.model, x_train, y_train, scoring='accuracy', cv=5)
         return scores
 
     def global_accuracy(self, x_test, y_test):
