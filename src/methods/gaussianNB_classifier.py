@@ -1,5 +1,5 @@
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import accuracy_score, log_loss
+from sklearn.metrics import accuracy_score, log_loss, f1_score
 from sklearn.model_selection import cross_val_score
 
 
@@ -26,3 +26,4 @@ class gaussianNB_Classifier:
     def logloss(self, x_test, y_test):
         prediction = self.model.predict_proba(x_test)
         return log_loss(y_test, prediction)
+

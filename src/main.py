@@ -75,7 +75,7 @@ def main():
         elif method == "4":
             print("\t- Logistic Regression Classifier")
             controller = lrcc.LogReg_Classifier_Controller(
-                search_HP, x_train, y_train)
+                search_HP, x_train, y_train, x_test, y_test)
         elif method == "5":
             print("\t- Random Forests Classifier")
             controller = rfcc.Random_Forests_Classifier_Controller(
@@ -102,9 +102,6 @@ def main():
 
         print("Start : Entrainement du modèle sur les paramètres donnés")
         classifier.train(x_train, y_train)
-        if method == "2":
-            print('Number of features seen during fit :',
-                  classifier.getNbSVbyClass())
         print("End : Entrainement du modèle sur les paramètres donnés")
 
         score = classifier.scoreKfold(x_train, y_train)
@@ -112,14 +109,28 @@ def main():
         scores = gd.display_scores(score)
         print(scores)
 
+        if method == "4": 
+            print("Start : Visualisation des pénalties L1 et L2")
+            visualizer = controller.getVisualizer()
+            visualizer.Visualise_penalty()
+            print("End : Visualisation des pénalties L1 et L2")
+
+
+        logloss = classifier.logloss(x_train, y_train)
+        print('Logloss score sur les données d"entrainement : ', logloss)
+
         print("Start : Visualisation de l'apprentissage du modèle")
         title = classifier.__class__.__name__
         lcV.learn_curve.plot_learning_curve(
             classifier.model, title, x_train, y_train, cv=2, scoring="accuracy").show()
         print("End : Visualisation de l'apprentissage du modèle")
 
+
         accuracy = classifier.global_accuracy(x_test, y_test)
-        print("Accuracy sur les données de test:", accuracy)
+        print("Accuracy sur les données de test : ", accuracy)
+        
+        logloss = classifier.logloss(x_test, y_test)
+        print('Logloss score sur les données de test : ', logloss)
 
     if len(sys.argv) == 2:
         showdown = sys.argv[1]
