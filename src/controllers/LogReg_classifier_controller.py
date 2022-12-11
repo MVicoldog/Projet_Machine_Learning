@@ -14,13 +14,13 @@ sys.path.append('../')
 
 class LogReg_Classifier_Controller:
 
-    def __init__(self, search_HP, x_train, y_train):
+    def __init__(self, search_HP, x_train, y_train, x_test, y_test):
         if (search_HP):
-            self.lgTuning(x_train, y_train)
+            self.lgTuning(x_train, y_train, x_test, y_test)
         else:
             self.lgDefault()
 
-    def lgTuning(self, x_train, y_train, bCv=True):
+    def lgTuning(self,  x_train, y_train, x_test, y_test, bCv=True):
         """
         When searching the best hyperparameters
         """
@@ -48,7 +48,7 @@ class LogReg_Classifier_Controller:
 
         self.classifier = lrc.LogReg_Classifier(C=gd.best_params_['C'])
 
-        self.visualizer = lrv.logreg_visualizer(gd, intervale)
+        self.visualizer = lrv.logreg_visualizer(LogisticRegression, gd, intervale, x_train, y_train, x_test, y_test)
 
     def lgDefault(self):
         """
