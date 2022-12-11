@@ -20,7 +20,7 @@ class adaBoost_visualizer:
         self.best_param_n = grid.best_params_["n_estimators"]
         self.best_param_lr = grid.best_params_["learning_rate"]
 
-        self.intervale_n = [i for i in range(1, 100, 2)]
+        self.intervale_n = [i for i in range(200, 300, 5)]
         self.learning_rate_list = np.arange(1, 4.5, 0.5)
 
     def Visualise_tuning(self):

@@ -23,7 +23,7 @@ class adaBoost_Classifier_Controller:
         """
         #base_estimator_list =[None, SVC()]
         #n_estimators_list = [20,30,40,50,60,70,80]
-        n_estimators_list = np.arange(0, 300, 50)
+        n_estimators_list = np.arange(1, 300, 50)
 
         learning_rate_list = np.arange(1, 5, 0.5)
         # 'base_estimator': base_estimator_list,

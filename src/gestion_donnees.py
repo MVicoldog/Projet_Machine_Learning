@@ -11,13 +11,6 @@ def open_data(train_path='./data/ClassificationFeuilleArbre/train.csv', test_pat
     return train_df, test_df
 
 
-def normalize(x_train, x_test):
-    scaler = StandardScaler()
-    x_train_ = scaler.fit_transform(x_train)
-    x_test_ = scaler.fit_transform(x_test)
-    return x_train_, x_test_
-
-
 def showdown_df():
     # Logging for Visual Comparison
     log_cols = ["Classifier", "Accuracy", "Log Loss"]
@@ -68,5 +61,9 @@ class GestionDonnees:
             self.y_train, self.y_test = self.labels[train_index], self.labels[test_index]
 
         #self.x_train, self.x_test, self.y_train, self.y_test=train_test_split(self.train_df,self.labels,test_size=0.20,shuffle=True,stratify=self.labels)
+        self.normalize()
 
-        self.x_train, self.x_test = normalize(self.x_train, self.x_test)
+    def normalize(self):
+        scaler = StandardScaler()
+        self.x_train = scaler.fit_transform(self.x_train)
+        self.x_test = scaler.fit_transform(self.x_test)
