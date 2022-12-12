@@ -10,6 +10,9 @@ class gaussianNB_visualizer:
         self.intervale = intervale
 
     def Visualise_tuning(self):
+        """
+        plot model's accuracy depending on each hyper-parameter
+        """
         CVresults = self.grid.cv_results_
 
         ymax = np.ones(len(CVresults["mean_test_score"])) * \

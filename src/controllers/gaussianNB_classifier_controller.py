@@ -44,8 +44,6 @@ class gaussianNB_Classifier_Controller:
         print("End : Gaussian NB classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
         print(model)
-        # print(gd.best_params_)
-        # print(gd.best_score_)
 
         self.classifier = gNBc.gaussianNB_Classifier(
             var_smoothing=gd.best_params_["var_smoothing"])

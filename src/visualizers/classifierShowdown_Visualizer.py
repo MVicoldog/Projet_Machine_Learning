@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 
 
 def accuracyPlotter(log):
-
+    """
+    plot accuracy according to each classifier
+    """
     sns.barplot(x='Accuracy', y='Classifier', data=log)
 
     plt.xlabel('Accuracy %')
@@ -12,7 +14,9 @@ def accuracyPlotter(log):
 
 
 def loglossPlotter(log):
-
+    """
+    plot log loss according to each classifier
+    """
     sns.barplot(x='Log Loss', y='Classifier', data=log)
 
     plt.xlabel('Log Loss')
@@ -21,6 +25,9 @@ def loglossPlotter(log):
 
 
 def subPlotter121(log):
+    """
+    plot accuracy & log loss according to each classifier
+    """
     fig, axes = plt.subplots(1, 2, figsize=(15, 5), sharey=True)
     fig.suptitle('Classifier Showdown')
 

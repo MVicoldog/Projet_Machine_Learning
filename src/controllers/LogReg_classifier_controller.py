@@ -54,7 +54,7 @@ class LogReg_Classifier_Controller:
         """
         When taking default hyperparameters
         """
-        self.classifier = lrc.LogReg_Classifier(C=1)  # Default Param
+        self.classifier = lrc.LogReg_Classifier(C=1) # Default Param
 
     def getClassifier(self):
         return self.classifier

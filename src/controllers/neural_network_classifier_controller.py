@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
+from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, StratifiedShuffleSplit
+from sklearn.neural_network import MLPClassifier
+import sys
+sys.path.append('../')
 import visualizers.neural_network_visualizer as nnv
 import methods.neural_network_classifier as nnc
-import sys
 
-from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, StratifiedShuffleSplit
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import accuracy_score
-from sklearn.neural_network import MLPClassifier
-import numpy as np
 
-sys.path.append('../')
+
+
+
 
 
 class Neural_Network_Classifier_Controller:
@@ -43,8 +43,8 @@ class Neural_Network_Classifier_Controller:
         print("End : Neural Network classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
         print(model)
-        # print(gd.best_params_)
-        # print(gd.best_score_)
+        print(gd.best_params_)
+        print(gd.best_score_)
 
         self.classifier = nnc.Neural_Network_Classifier(
             gd.best_params_['hidden_layer_sizes'])

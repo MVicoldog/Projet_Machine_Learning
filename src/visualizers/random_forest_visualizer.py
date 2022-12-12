@@ -26,7 +26,9 @@ class random_forest_visualizer:
         self.intervale_max_d = [i for i in range(1, 100)]
 
     def Visualise_tuning(self):
-
+        """
+        plot model's accuracy depending on each hyper-parameter
+        """
         accuracy_over_n = []
         accuracy_over_max_d = []
         model = rfc.RandomForestClassifier()

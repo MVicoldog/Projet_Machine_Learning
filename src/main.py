@@ -10,7 +10,6 @@ import sys
 import gestion_donnees as gd
 
 # - Controllers -
-import controllers.ridge_classifier_controller as rcc
 import controllers.adaBoost_classifier_controller as abcc
 import controllers.svm_classifier_controller as svmc
 import controllers.LogReg_classifier_controller as lrcc
@@ -22,7 +21,6 @@ import controllers.neural_network_classifier_controller as nncc
 import visualizers.classifierShowdown_Visualizer as cSV
 import visualizers.learning_curve as lcV
 
-# PENSER A IMPLEMENTER LOGLOSS DANS LES METHODS !!!
 from sklearn.metrics import log_loss
 
 
@@ -40,6 +38,7 @@ def main():
     \n\n\t Classifiers Showdown : 1 => Make the comparaison between all the model tuned without their hyperparameters\
     \n\t Classifiers Showdown : 2 => Make the comparaison between all the model tuned WITH their hyperparameters"
 
+    # User wants to read usage or error of usage
     if len(sys.argv) == 0 or len(sys.argv) >= 4:
         print(usage)
         return
@@ -50,6 +49,7 @@ def main():
     gestion_donnees.stratifiedSelection()
     x_train, y_train, x_test, y_test = gestion_donnees.x_train, gestion_donnees.y_train, gestion_donnees.x_test, gestion_donnees.y_test
 
+    # Use one classifier
     if len(sys.argv) == 3:
         method = sys.argv[1]
         search_HP = sys.argv[2]
@@ -132,6 +132,7 @@ def main():
         logloss = classifier.logloss(x_test, y_test)
         print('Logloss score sur les données de test : ', logloss)
 
+    # Compare all classifiers
     if len(sys.argv) == 2:
         showdown = sys.argv[1]
         if showdown == "1":

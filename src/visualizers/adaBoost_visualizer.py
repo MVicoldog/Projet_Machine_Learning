@@ -7,10 +7,8 @@ import methods.adaBoost_classifier as adac
 
 class adaBoost_visualizer:
 
-    def __init__(self, model, learning_rate_list, n_estimators_list, x_train, y_train, x_test, y_test, grid):
+    def __init__(self, model, x_train, y_train, x_test, y_test, grid):
         self.model = model
-        # self.learning_rate_list = learning_rate_list
-        # self.n_estimators_list = n_estimators_list
         self.x_train = x_train
         self.x_test = x_test
         self.y_train = y_train
@@ -24,7 +22,9 @@ class adaBoost_visualizer:
         self.learning_rate_list = np.arange(1, 4.5, 0.5)
 
     def Visualise_tuning(self):
-
+        """
+        plot model's accuracy depending on each hyper-parameter
+        """
         accuracy_over_n = []
         accuracy_over_lr = []
         model = adac.AdaBoostClassifier()

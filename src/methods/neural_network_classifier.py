@@ -6,25 +6,53 @@ from sklearn.metrics import accuracy_score, log_loss
 class Neural_Network_Classifier:
 
     def __init__(self, hidden_layer_sizes):
+        """
+        Create the model
+        :param hidden_layer_sizes: Maximum number of neurons in hidden layers of the model
+        """
         self.model = MLPClassifier(hidden_layer_sizes=(
             hidden_layer_sizes,), max_iter=500)
 
     def train(self, x_train, y_train):
+        """
+        Train model from training dataset
+        :param x_train: vectors from training dataset
+        :param y_train: classes associated to each vector from x_train
+        """
         self.model.fit(x_train, y_train)
 
     def predict(self, x_test):
+        """
+        predict the value of each vectors in x_test, based on training
+        :param x_test: vectors from validating dataset
+        """
         return self.model.predict(x_test)
 
     def scoreKfold(self, x_train, y_train):
+        """
+        :param x_train: vectors from training dataset
+        :param y_train: classes associated to each vector from x_train
+        :return: cross-validation score, computed by sklearn.model_selection
+        """
         scores = cross_val_score(
             self.model, x_train, y_train, scoring='accuracy', cv=5)
         return scores
 
     def global_accuracy(self, x_test, y_test):
+        """
+        :param x_test: vectors from validating dataset
+        :param y_test: classes associated to each vector from x_test
+        :return: global accuracy on whole validating dataset, based on the model prediction
+        """
         predicted = self.predict(x_test)
         accuracy = (predicted == y_test).mean()
         return accuracy
 
     def logloss(self, x_test, y_test):
+        """
+        :param x_test: vectors from validating dataset
+        :param y_test: classes associated to each vector from x_test
+        :return: logloss on whole validating dataset, based on the model prediction
+        """
         prediction = self.model.predict_proba(x_test)
         return log_loss(y_test, prediction)

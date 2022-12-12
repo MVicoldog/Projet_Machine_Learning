@@ -21,8 +21,6 @@ https://scikit-learn.org/stable/auto_examples/model_selection/plot_learning_curv
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import learning_curve
-
-
 class learn_curve:
 
     # def __init__(self, estimator, title, X, y):

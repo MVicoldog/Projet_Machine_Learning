@@ -39,6 +39,7 @@ class Svm_Classifier_Controller:
         gd.fit(x_train, y_train)
         print("End : SVM classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
+        print(model)
         print(gd.best_params_)
         print(gd.best_score_)
 
@@ -49,7 +50,7 @@ class Svm_Classifier_Controller:
         """
         When taking default hyperparameters
         """
-        self.classifier = svmc.Svm_Classifier(C=10)  # Best Param in fact
+        self.classifier = svmc.Svm_Classifier(C=10)  # Best Param
 
     def getClassifier(self):
         return self.classifier

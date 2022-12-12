@@ -50,7 +50,7 @@ class Random_Forests_Classifier_Controller:
 
         self.classifier = rf.Random_forests_Classifier(n_estimators=gd.best_params_[
                                                        "n_estimators"], max_depth=gd.best_params_["max_depth"])
-        self.visualizer = rfv.random_forest_visualizer(RandomForestClassifier, interval_max_depth, interval_n_estimators,
+        self.visualizer = rfv.random_forest_visualizer(RandomForestClassifier, interval_n_estimators, interval_max_depth,
                                                        x_train, y_train, x_test, y_test, gd)
 
     def rfDefault(self):

@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import visualizers.adaBoost_visualizer as abv
-import methods.adaBoost_classifier as abc
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, StratifiedShuffleSplit
 from sklearn.ensemble import AdaBoostClassifier
 import numpy as np
 import sys
-
 sys.path.append('../')
-
+import visualizers.adaBoost_visualizer as abv
+import methods.adaBoost_classifier as abc
 
 class adaBoost_Classifier_Controller:
 
@@ -21,12 +19,9 @@ class adaBoost_Classifier_Controller:
         """
         When searching the best hyperparameters
         """
-        #base_estimator_list =[None, SVC()]
-        #n_estimators_list = [20,30,40,50,60,70,80]
         n_estimators_list = np.arange(1, 300, 50)
 
         learning_rate_list = np.arange(1, 5, 0.5)
-        # 'base_estimator': base_estimator_list,
         params = {'n_estimators': n_estimators_list,
                   'learning_rate': learning_rate_list}
         print("Start : adaBoost classifier tuning - research of hyperparameters")
@@ -45,6 +40,7 @@ class adaBoost_Classifier_Controller:
         gd.fit(x_train, y_train)
         print("End : adaBoost classifier tuning - research of hyperparameters")
         model = gd.best_estimator_
+        print(model)
         print(gd.best_params_)
         print(gd.best_score_)
 
@@ -59,8 +55,6 @@ class adaBoost_Classifier_Controller:
         """
         self.classifier = abc.adaBoost_Classifier(
             base_estimator=None, n_estimators=50, learning_rate=1)
-
-    # Best Param in fact
 
     def getClassifier(self):
         return self.classifier
